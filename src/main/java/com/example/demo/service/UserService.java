@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,9 +11,11 @@ import org.springframework.stereotype.Service;
 @Service  // 1. 標記為 Service 元件
 public class UserService {
 
-    // 2. 透過 @Autowired 註解，由 Spring 容器自動將 UserRepository 注入進來
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * 獲取使用者詳細資料
