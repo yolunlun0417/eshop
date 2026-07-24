@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 /**
  * 使用者業務邏輯層（Service）
@@ -12,34 +13,23 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-
-    UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    /**
-     * 獲取使用者詳細資料
-     * @param userId 使用者 ID
-     * @return 使用者物件
-     */
-    public User getUserDetail(String userId) {
-        // ==========================================
-        // 商業邏輯：ID 格式化處理
-        // ==========================================
-        // 1. 去除前後空白
-        // 2. 強制轉成大寫（確保與資料庫 KEY 一致）
-        String formattedId = userId.trim().toUpperCase();
-        
-        // ==========================================
-        // 呼叫 Repository 層取得資料
-        // ==========================================
-        User user = userRepository.findById(formattedId);
-        
-        // ==========================================
-        // 商業邏輯：找不到時的特殊處理（可擴充）
-        // ==========================================
-        // 如果找不到人，可以在這裡記錄日誌或拋出例外
-        
-        return user;
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id).orElse(null);
+    }
+    
+    public void deleteUserById(Long id){
+        userRepository.deleteById(id);
     }
 }
